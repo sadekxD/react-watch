@@ -1,0 +1,153 @@
+.player-container {
+	z-index: 2147483647;
+	position: relative;
+	background: #000;
+	border-radius: 8px;
+	overflow: hidden;
+
+	.thumbnail-wrapper {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+
+		&.hidden {
+			display: none;
+		}
+
+		.thumbnail {
+			object-fit: cover;
+			width: 100%;
+			height: 100%;
+		}
+
+		.play-btn {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+	}
+
+	&:hover {
+		.video-controls.show {
+			transform: translateY(0);
+		}
+	}
+
+	&.fullscreen {
+		position: fixed;
+		min-height: 100vh;
+		min-width: 100vw;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+		border-radius: 0;
+	}
+
+	video {
+		width: 100%;
+		margin: auto 0;
+
+		&.fullscreen {
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+		}
+	}
+
+	.video-controls {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 10px 8px;
+		background-color: rgba(0, 0, 0, 0.1);
+		// transform: translateY(100%);
+		transition: all 0.2s ease-in-out;
+		cursor: pointer;
+
+		.duration-slider {
+			margin-bottom: 12px;
+		}
+
+		.c-left {
+			display: flex;
+			align-items: center;
+
+			.play-icon {
+				margin-right: 10px;
+				color: white;
+			}
+
+			.sound-icon-wrap {
+				position: relative;
+				.sound-icon {
+					margin-right: 10px;
+					color: white;
+				}
+
+				.mute-slash {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-120%, -55%) rotate(-45deg);
+					color: #fff;
+					user-select: none;
+				}
+			}
+
+			.timestamp {
+				color: #fff;
+				font-size: 12px;
+			}
+		}
+
+		.c-right {
+			display: flex;
+			align-items: center;
+
+			.cog-icon {
+				margin-right: 10px;
+				color: white;
+			}
+
+			.expand-icon {
+				color: white;
+			}
+		}
+	}
+}
+
+.quality-tooltip {
+	font-size: 12px;
+	position: relative;
+
+	.radio-group {
+		position: absolute;
+		right: 0;
+		bottom: 120%;
+	}
+
+	.rs-tooltip-arrow {
+		display: none;
+	}
+	.rs-tooltip-inner {
+		background-color: #fff;
+		padding: 0;
+	}
+
+	.rs-radio-group {
+		border: none;
+
+		.rs-radio-checker {
+			label {
+				font-size: 10px;
+			}
+		}
+	}
+}

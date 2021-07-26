@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+// Styles
+import "rsuite/dist/styles/rsuite-default.css";
+import "./styles/style.scss";
+
+// Router
+import { Route, Switch } from "react-router-dom";
+
+// Pages and Components
+import Header from "./components/Header";
+import Navbar from "./components/Navbar";
+import History from "./pages/History";
+import Home from "./pages/Home";
+import Saved from "./pages/Saved";
+import Upload from "./pages/Upload";
+import Play from "./pages/Play";
+import Test from "./pages/Test";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<Header />
+			<Navbar />
+			<Switch>
+				<Route exact path="/">
+					<Home />
+				</Route>
+				<Route exact path="/test">
+					<Test />
+				</Route>
+				<Route exact path="/videos/:id">
+					<Play />
+				</Route>
+				<Route exact path="/saved">
+					<Saved />
+				</Route>
+				<Route exact path="/history">
+					<History />
+				</Route>
+				<Route exact path="/upload">
+					<Upload />
+				</Route>
+			</Switch>
+		</div>
+	);
 }
 
 export default App;

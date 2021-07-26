@@ -1,0 +1,100 @@
+.create-form {
+	.required-dot {
+		font-size: 13px;
+		margin-bottom: 4px;
+		color: red;
+	}
+
+	.upload-box {
+		height: 280px;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+
+		.upload-text {
+			font-size: 16px;
+			margin-top: 10px;
+			text-align: center;
+		}
+	}
+
+	.thumb-upload {
+		margin: 1rem 0;
+
+		.col-1 {
+			padding: 1rem;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			border-radius: 6px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.icon-wrapper {
+				height: 60px;
+				width: 60px;
+				border-radius: 50%;
+				background: #f8f8f8;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto;
+			}
+
+			h1 {
+				font-size: 1rem;
+				font-weight: 500;
+			}
+
+			p {
+				font-size: 14px;
+			}
+		}
+
+		.col-2 {
+			padding: 1rem;
+			box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			border-radius: 6px;
+			margin-left: 1rem;
+			.icon-wrapper {
+				height: 60px;
+				width: 60px;
+				border-radius: 50%;
+				background: #f8f8f8;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto;
+			}
+
+			h1 {
+				font-size: 1rem;
+				font-weight: 500;
+			}
+
+			p {
+				font-size: 14px;
+			}
+		}
+
+		@media screen and (max-width: 600px) {
+			.col-1,
+			.col-2 {
+				h1 {
+					font-size: 14px;
+				}
+
+				p {
+					font-size: 12px;
+				}
+				flex-grow: 1;
+			}
+
+			.col-2 {
+				margin-top: 1rem;
+				margin-left: 0;
+			}
+		}
+	}
+}
