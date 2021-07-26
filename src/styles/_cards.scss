@@ -38,6 +38,17 @@
 			width: 30px;
 		}
 
+		.duration {
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			padding: 4px 6px;
+			border-radius: 2px;
+			background-color: rgba(0, 0, 0, 0.2);
+			font-size: 10px;
+			color: #fff;
+		}
+
 		.video-info {
 			display: flex;
 			align-items: center;

@@ -16,6 +16,8 @@ import Saved from "./pages/Saved";
 import Upload from "./pages/Upload";
 import Play from "./pages/Play";
 import Test from "./pages/Test";
+import SearchResult from "./pages/SearchResult";
+import FilterResult from "./pages/FilterResult";
 
 function App() {
 	return (
@@ -34,6 +36,12 @@ function App() {
 				</Route>
 				<Route exact path="/saved">
 					<Saved />
+				</Route>
+				<Route exact path="/search">
+					<SearchResult />
+				</Route>
+				<Route exact path="/filter">
+					<FilterResult />
 				</Route>
 				<Route exact path="/history">
 					<History />

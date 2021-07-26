@@ -13,7 +13,7 @@ import {
 	Col,
 } from "rsuite";
 
-// import FilterDropdown from "./popper/FilterPopper";
+import FilterDropdown from "./poppers/FilterPopper";
 
 const NavbarC = () => {
 	const [searchValue, setSearchValue] = useState({ search: "" });
@@ -66,9 +66,9 @@ const NavbarC = () => {
 									</FlexboxGrid.Item>
 									<FlexboxGrid.Item style={{ flex: 1 }}>
 										<FlexboxGrid className="nav-links" align="middle">
-											{/* <FlexboxGrid.Item>
+											<FlexboxGrid.Item>
 												<FilterDropdown />
-											</FlexboxGrid.Item> */}
+											</FlexboxGrid.Item>
 											<FlexboxGrid.Item>
 												<Link to="/history">
 													<Button className="btn" size="xs" appearance="ghost">
@@ -84,11 +84,7 @@ const NavbarC = () => {
 											<FlexboxGrid.Item>
 												<Link to="/saved">
 													<Button className="btn" size="xs" appearance="ghost">
-														<Icon
-															className="btn-icon"
-															size="lg"
-															icon="heart"
-														/>
+														<Icon className="btn-icon" size="lg" icon="heart" />
 														Saved
 													</Button>
 												</Link>

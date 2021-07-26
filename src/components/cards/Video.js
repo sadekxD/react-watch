@@ -25,6 +25,7 @@ const Video = () => {
 						<span className="icon-wrapper">
 							<img src={play} alt="icon" />
 						</span>
+						<span className="duration">4:33</span>
 						<div className="video-info">
 							<div className="user-info">
 								<Avatar

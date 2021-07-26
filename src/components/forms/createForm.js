@@ -9,12 +9,22 @@ import {
 	Icon,
 	Uploader,
 	FlexboxGrid,
+	Schema,
+	Radio,
+	RadioGroup,
 } from "rsuite";
 import VideoThumbnail from "react-video-thumbnail";
 import ThumbnailModal from "../modals/ThumbnailModal";
 
+const { StringType, ArrayType } = Schema.Types;
+
+const model = Schema.Model({
+	title: StringType().isRequired("This field is required"),
+	description: StringType().isRequired("This field is required."),
+	tags: ArrayType().unrepeatable("Cannot repeat same tag."),
+});
+
 const CreateForm = () => {
-	const canvasRef = useRef(null);
 	const videoRef = useRef(null);
 	const [formData, setFormData] = useState({
 		title: "",
@@ -26,32 +36,6 @@ const CreateForm = () => {
 	const [images, setImages] = useState([]);
 	const [show, setShow] = useState(false);
 
-	useEffect(() => {}, [formData]);
-
-	const captureThumbnail = async () => {
-		const video = await videoRef.current;
-		const canvas = await canvasRef.current;
-		const context = await canvas.getContext("2d");
-
-		const ratio = video.videoWidth / video.videoHeight;
-		const w = video.videoWidth - 100;
-		const h = parseInt(w / ratio, 10);
-		canvas.width = w;
-		canvas.height = h;
-
-		if (images.length < 5) {
-			video.currentTime = Math.floor(Math.random() * video.duration);
-			context.fillRect(0, 0, w, h);
-			context.drawImage(video, 0, 0, w, h);
-			canvas.toBlob(function (blob) {
-				const url = URL.createObjectURL(blob);
-				setImages([...images, url]);
-			});
-		} else {
-			return;
-		}
-	};
-
 	function dataURItoBlob(dataURI) {
 		var mime = dataURI.split(",")[0].split(":")[1].split(";")[0];
 		var binary = atob(dataURI.split(",")[1]);
@@ -62,9 +46,11 @@ const CreateForm = () => {
 		return new Blob([new Uint8Array(array)], { type: mime });
 	}
 
+	console.log(formData.thumbnail);
+
 	return (
 		<div>
-			<Form fluid className="create-form">
+			<Form model={model} fluid className="create-form">
 				<FormGroup>
 					<ControlLabel>
 						Video Title <span className="required-dot">*</span>
@@ -78,11 +64,32 @@ const CreateForm = () => {
 					<FormControl rows={5} name="decription" componentClass="textarea" />
 				</FormGroup>
 
-				<canvas ref={canvasRef} style={{ display: "none" }} />
-				<div>
-					{/* {images.map((img, i) => (
-						<img key={i} src={img} style={{ width: 200 }} />
-					))} */}
+				<div style={{ display: "none" }}>
+					{formData.file && (
+						<>
+							{[1, 2, 3, 4, 5].map((item) => {
+								const snapTime =
+									videoRef.current &&
+									Math.floor(Math.random() * videoRef.current.duration);
+
+								console.log(snapTime);
+
+								return (
+									<VideoThumbnail
+										key={item}
+										videoUrl={URL.createObjectURL(formData.file.blobFile)}
+										thumbnailHandler={(thumbnail) =>
+											setImages([
+												...images,
+												URL.createObjectURL(dataURItoBlob(thumbnail)),
+											])
+										}
+										snapshotAtTime={snapTime}
+									/>
+								);
+							})}
+						</>
+					)}
 				</div>
 
 				<FormGroup>
@@ -117,6 +124,7 @@ const CreateForm = () => {
 							height="240"
 							controls
 							src={URL.createObjectURL(formData.file.blobFile)}
+							style={{ display: "none" }}
 						></video>
 					</div>
 				)}
@@ -126,23 +134,40 @@ const CreateForm = () => {
 							<div className="icon-wrapper">
 								<Icon icon="image" style={{ color: "#1EBAFF" }} size="2x" />
 							</div>
-							<h1>Suggested Images</h1>
+							<h1>Suggested Thumbnails</h1>
 						</div>
 					</FlexboxGrid.Item>
+
 					<ThumbnailModal show={show} close={() => setShow(false)}>
-						{images.length !== 0 ? (
-							<div>
-								{images.map((img) => (
-									<img
-										key={img}
-										src={img}
-										style={{ width: 120, objectFit: "cover" }}
-									/>
-								))}
-							</div>
-						) : (
-							""
-						)}
+						<FormGroup controlId="radioList" className="radio-control">
+							<RadioGroup
+								name="radioList"
+								inline
+								// appearance="picker"
+								className="radio-group"
+								defaultValue={formData.thumbnail}
+								onChange={(file) => {
+									return setFormData({ ...formData, thumbnail: file });
+								}}
+							>
+								{images.length !== 0 ? (
+									<>
+										{images.map((img) => (
+											<Radio key={img} value={img}>
+												<img
+													className="thumb-img"
+													style={{ width: 120, objectFit: "cover" }}
+													key={img}
+													src={img}
+												/>
+											</Radio>
+										))}
+									</>
+								) : (
+									""
+								)}
+							</RadioGroup>
+						</FormGroup>
 					</ThumbnailModal>
 
 					<FlexboxGrid.Item className="col-2">
@@ -150,7 +175,8 @@ const CreateForm = () => {
 							<div className="icon-wrapper">
 								<Icon icon="upload2" style={{ color: "#1EBAFF" }} size="2x" />
 							</div>
-							<h1>Upload Your Thumbnail</h1>
+							<h1>Your Thumbnail</h1>
+							<input type="file" accept="images" style={{ display: "none" }} />
 						</div>
 					</FlexboxGrid.Item>
 				</FlexboxGrid>

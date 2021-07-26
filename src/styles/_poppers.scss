@@ -1,0 +1,25 @@
+.filter-popper {
+	padding: 0.5rem;
+	min-width: 280px;
+	max-width: 500px;
+	overflow: hidden;
+
+	.rs-radio-group {
+		border: none;
+		label {
+			font-size: 12px;
+		}
+	}
+
+	.filter-btn {
+		margin-top: 10px;
+		float: right;
+		margin-right: 5px;
+		padding: 4px;
+		font-size: 12px;
+
+		.filter-icon {
+			margin-right: 6px;
+		}
+	}
+}
