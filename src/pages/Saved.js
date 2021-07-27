@@ -1,10 +1,11 @@
 import React from "react";
 import Videos from "../components/video-list";
+import { dummyData } from "../data/DummyData";
 
 const Saved = () => {
 	return (
 		<div>
-			<Videos header="Saved Videos" />
+			<Videos data={dummyData} header="Saved Videos" />
 		</div>
 	);
 };
