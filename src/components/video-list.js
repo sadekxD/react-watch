@@ -11,7 +11,7 @@ const breakpointColumnsObj = {
 	// 500: 2,
 };
 
-const Videos = ({ header }) => {
+const Videos = ({ header, data = [] }) => {
 	return (
 		<div className="container video-list-container" style={{ marginTop: 20 }}>
 			<h5 className="video-list-header">{header}</h5>
@@ -20,16 +20,16 @@ const Videos = ({ header }) => {
 				className="my-masonry-grid"
 				columnClassName="my-masonry-grid_column"
 			>
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
+				{data.map((video) => (
+					<Video
+						key={video.id}
+						id={video.id}
+						title={video.title}
+						duration={video.duration}
+						thumbnail={video.thumbnail}
+						upload_date={video.upload_date}
+					/>
+				))}
 			</Masonry>
 		</div>
 	);

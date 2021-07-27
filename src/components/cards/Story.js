@@ -12,10 +12,17 @@ const Story = () => {
 				/>
 				<div className="story-info">
 					<div className="author-info">
-						<Avatar />
+						<Avatar
+							src="https://avatars2.githubusercontent.com/u/12592949?s=460&v=4"
+							size="sm"
+							className="avatar"
+						/>
 						<strong>Katty Pumpkin</strong>
 					</div>
-					<p className="info-text"></p>
+					<p className="info-text">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+						eiusmod tempor incididunt
+					</p>
 				</div>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Videos from "../components/video-list";
+import { dummyData } from "../data/DummyData";
 
 const SearchResult = () => {
 	const location = useLocation();
@@ -10,9 +11,17 @@ const SearchResult = () => {
 
 	const query = useQuery();
 
+	const searchedResult = dummyData.filter(
+		(item) =>
+			item.title.toLowerCase().search(query.get("search").toLowerCase()) !== -1
+	);
+
 	return (
 		<div>
-			<Videos header={`Search result for "${query.get("search")}"`} />
+			<Videos
+				data={searchedResult}
+				header={`Search result for "${query.get("search")}"`}
+			/>
 		</div>
 	);
 };

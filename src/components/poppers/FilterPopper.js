@@ -12,7 +12,7 @@ import {
 	Col,
 } from "rsuite";
 
-const up_time = ["Last hour", "Today", "This week", "This month", "This year"];
+const up_times = ["Last hour", "Today", "This week", "This month", "This year"];
 const durations = ["4 minutes", "4-20 minutes", "Over 20 minutes"];
 
 const FilterPopper = ({ ...rest }) => {
@@ -29,8 +29,6 @@ const FilterPopper = ({ ...rest }) => {
 		});
 	};
 
-	console.log(filterValue);
-
 	return (
 		<Popover {...rest} full>
 			<div className="filter-popper">
@@ -46,7 +44,7 @@ const FilterPopper = ({ ...rest }) => {
 								}
 							>
 								<span style={styles.radioGroupLabel}>Upload Date: </span>
-								{up_time.map((time) => (
+								{up_times.map((time) => (
 									<Radio key={time} value={time}>
 										{time}
 									</Radio>
@@ -92,7 +90,7 @@ const FilterDropdown = () => {
 	return (
 		<Whisper
 			placement="bottomStart"
-			trigger="hover"
+			trigger="click"
 			triggerRef={triggerRef}
 			speaker={<FilterPopper />}
 			enterable

@@ -56,8 +56,6 @@ const CreateForm = () => {
 		return new Blob([new Uint8Array(array)], { type: mime });
 	}
 
-	console.log(formData);
-
 	return (
 		<div>
 			<Form
@@ -117,6 +115,7 @@ const CreateForm = () => {
 						removable={true}
 						listType="text"
 						autoUpload={false}
+						disabled={formData.file ? true : false}
 						accept="video/mp4,video/x-m4v,video/*"
 						onChange={(file) => setFormData({ ...formData, file: file[0] })}
 					>
@@ -172,12 +171,14 @@ const CreateForm = () => {
 						<div className="col-2">
 							<div className="wrapper">
 								<Uploader
-									fileListVisible={false}
 									removable={true}
+									listType="text"
+									autoUpload={false}
+									disabled={formData.thumbnail ? true : false}
 									accept="image/*"
-									onChange={(file) =>
-										setFormData({ ...formData, thumbnail: file[0].blobFile })
-									}
+									onChange={(file) => {
+										setFormData({ ...formData, thumbnail: file[0]?.blobFile });
+									}}
 								>
 									<div>
 										<div className="icon-wrapper">

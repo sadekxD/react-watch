@@ -1,6 +1,9 @@
 import React from "react";
 import Video from "./cards/Video";
 
+// Dummy Data
+import { dummyData } from "../data/DummyData";
+
 // Masonry CSS
 import Masonry from "react-masonry-css";
 
@@ -19,16 +22,16 @@ const HistoryList = ({ header }) => {
 				className="my-masonry-grid"
 				columnClassName="my-masonry-grid_column"
 			>
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
-				<Video />
+				{dummyData.map((video) => (
+					<Video
+						key={video.id}
+						id={video.id}
+						title={video.title}
+						duration={video.duration}
+						thumbnail={video.thumbnail}
+						upload_date={video.upload_date}
+					/>
+				))}
 			</Masonry>
 		</div>
 	);

@@ -1,43 +1,32 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { Grid, Row, Col, FlexboxGrid, Avatar, Button, Icon } from "rsuite";
 import Video2 from "../components/cards/Video2";
+import ShareModal from "../components/modals/ShareModal";
 import VideoPlayer from "../components/player/Player";
 
-const tags = ["training", "IT_training", "Elm_course", "Course"];
-
-const sources = [
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.240p.webm",
-		type: "video/webm",
-		label: "240p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.360p.webm",
-		type: "video/webm",
-		label: "360p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.480p.webm",
-		type: "video/webm",
-		label: "480p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.720p.webm",
-		type: "video/webm",
-		label: "720p",
-	},
-];
+// dummy data
+import { dummyData } from "../data/DummyData";
 
 const Play = () => {
 	const [liked, setLiked] = useState(false);
+	const [show, setShow] = useState(false);
+	const { id } = useParams();
+
+	const videoInfo = dummyData.find((item) => item.id === parseInt(id));
+
+	console.log(videoInfo);
+
+	const { title, description, sources, thumbnail, tags } = videoInfo;
 
 	return (
 		<div className="container play-container">
+			<ShareModal show={show} setShow={setShow} />
 			<Grid fluid>
 				<Row className="row">
 					<Col xs={24} sm={24} md={24} lg={16} className="col-1">
 						<div>
-							<VideoPlayer sources={sources} />
+							<VideoPlayer thumbnail={thumbnail} sources={sources} />
 							<div className="tags">
 								{tags.map((tag) => (
 									<div key={tag} className="tag">
@@ -51,7 +40,7 @@ const Play = () => {
 								justify="space-between"
 							>
 								<FlexboxGrid.Item className="video-info">
-									<h1 className="title">Natural Ciew of Mountain</h1>
+									<h1 className="title">{title}</h1>
 									<div>
 										<span className="views">264,587 views</span>
 										<span className="up-date">Aug 14,2019</span>
@@ -91,29 +80,25 @@ const Play = () => {
 									<Icon className="icon" icon="comment-o" />
 									Comment
 								</FlexboxGrid.Item>
-								<FlexboxGrid.Item>
+								<FlexboxGrid.Item onClick={() => setShow(true)}>
 									<Icon className="icon" icon="share" />
 									Share
 								</FlexboxGrid.Item>
 							</FlexboxGrid>
-							<div className="video-description">
-								"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-								enim ad minim veniam, quis nostrud exercitation ullamco laboris
-								nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-								in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-								nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-								sunt in culpa qui officia deserunt mollit anim id est laborum."
-							</div>
+							<div className="video-description">{description}</div>
 						</div>
 					</Col>
 					<Col xs={24} sm={24} md={24} lg={8} className="col-2">
-						<Video2 />
-						<Video2 />
-						<Video2 />
-						<Video2 />
-						<Video2 />
-						<Video2 />
+						{dummyData.map((video) => (
+							<Video2
+								key={video.id}
+								id={video.id}
+								title={video.title}
+								duration={video.duration}
+								thumbnail={video.thumbnail}
+								upload_date={video.upload_date}
+							/>
+						))}
 					</Col>
 				</Row>
 			</Grid>

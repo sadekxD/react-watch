@@ -45,6 +45,7 @@
 				font-size: 13px;
 				margin-top: 10px;
 				display: flex;
+				flex-wrap: wrap;
 
 				.tag {
 					margin-right: 8px;
@@ -241,6 +242,7 @@
 	.stories-wrapper {
 		display: flex;
 		overflow-x: scroll;
+		scrollbar-width: none;
 
 		&::-webkit-scrollbar {
 			display: none;
