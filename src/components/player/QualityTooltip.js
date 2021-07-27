@@ -13,15 +13,8 @@ const QualityTooltip = ({
 		setResolution(value);
 	};
 
-	// const tooltip = (
-	// 	<Tooltip
-	// 		className="quality-tooltip"
-	// 		style={{ zIndex: 43434343434 }}
-	// 	></Tooltip>
-	// );
-
 	return (
-		<div className="quality-tooltip" onClick={() => setActive(!active)}>
+		<div className="quality-tooltip" onClick={() => setActive(true)}>
 			{active && (
 				<div
 					className="radio-group"

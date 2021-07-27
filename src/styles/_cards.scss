@@ -17,13 +17,6 @@
 		.video-img {
 			width: 100%;
 			object-fit: cover;
-			transition: all 0.2s ease;
-		}
-
-		&:hover {
-			.video-img {
-				transform: scale(1.05);
-			}
 		}
 
 		.icon-wrapper {
@@ -132,11 +125,23 @@
 		.img-wrapper {
 			overflow: hidden;
 			width: 200px;
+			position: relative;
 
 			.video-img {
 				width: 100%;
 				object-fit: cover;
 				border-radius: 8px;
+			}
+
+			.duration {
+				position: absolute;
+				top: 4px;
+				right: 4px;
+				padding: 4px 6px;
+				border-radius: 2px;
+				background-color: rgba(0, 0, 0, 0.2);
+				font-size: 10px;
+				color: #fff;
 			}
 		}
 
@@ -166,6 +171,34 @@
 			.views {
 				margin-right: 6px;
 			}
+		}
+	}
+}
+
+.story {
+	min-width: 280px;
+	width: 280px;
+	min-height: 180px;
+	height: 180px;
+	padding: 1rem;
+
+	.story-wrapper {
+		position: relative;
+		overflow: hidden;
+		border-radius: 8px;
+
+		.story-img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.story-info {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding-left: 10px;
 		}
 	}
 }

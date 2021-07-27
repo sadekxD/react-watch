@@ -1,5 +1,6 @@
 .player-container {
 	z-index: 2147483647;
+	width: 100%;
 	position: relative;
 	background: #000;
 	border-radius: 8px;
@@ -121,6 +122,10 @@
 			}
 		}
 	}
+
+	@media screen and (max-width: 480px) {
+		border-radius: 0;
+	}
 }
 
 .quality-tooltip {
@@ -148,6 +153,39 @@
 			label {
 				font-size: 10px;
 			}
+		}
+	}
+}
+
+.video-preview {
+	position: relative;
+	margin: 20px 0;
+	max-width: 500px;
+	border-radius: 6px;
+	overflow: hidden;
+
+	video {
+		width: 100%;
+	}
+
+	.thumbnail-wrapper {
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+
+		.thumbnail {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.play-btn {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 	}
 }

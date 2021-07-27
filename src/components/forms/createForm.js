@@ -9,12 +9,16 @@ import {
 	Icon,
 	Uploader,
 	FlexboxGrid,
+	Grid,
+	Row,
+	Col,
 	Schema,
 	Radio,
 	RadioGroup,
 } from "rsuite";
 import VideoThumbnail from "react-video-thumbnail";
 import ThumbnailModal from "../modals/ThumbnailModal";
+import VideoPreview from "../preview/VideoPreview";
 
 const { StringType, ArrayType } = Schema.Types;
 
@@ -36,6 +40,12 @@ const CreateForm = () => {
 	const [images, setImages] = useState([]);
 	const [show, setShow] = useState(false);
 
+	useEffect(() => {
+		if (!formData.file) {
+			setImages([]);
+		}
+	}, [formData]);
+
 	function dataURItoBlob(dataURI) {
 		var mime = dataURI.split(",")[0].split(":")[1].split(";")[0];
 		var binary = atob(dataURI.split(",")[1]);
@@ -46,11 +56,19 @@ const CreateForm = () => {
 		return new Blob([new Uint8Array(array)], { type: mime });
 	}
 
-	console.log(formData.thumbnail);
+	console.log(formData);
 
 	return (
 		<div>
-			<Form model={model} fluid className="create-form">
+			<Form
+				formValue={formData}
+				onChange={(formValue) => {
+					setFormData({ ...formData, ...formValue });
+				}}
+				model={model}
+				fluid
+				className="create-form"
+			>
 				<FormGroup>
 					<ControlLabel>
 						Video Title <span className="required-dot">*</span>
@@ -71,8 +89,6 @@ const CreateForm = () => {
 								const snapTime =
 									videoRef.current &&
 									Math.floor(Math.random() * videoRef.current.duration);
-
-								console.log(snapTime);
 
 								return (
 									<VideoThumbnail
@@ -118,6 +134,17 @@ const CreateForm = () => {
 				</FormGroup>
 				{formData.file && (
 					<div>
+						<VideoPreview
+							thumbnail={
+								formData.thumbnail
+									? URL.createObjectURL(formData.thumbnail)
+									: "https://media.istockphoto.com/vectors/no-thumbnail-image-vector-graphic-vector-id1147544806?k=6&m=1147544806&s=170667a&w=0&h=lYslyr1iPYlaJMp372lvw521YZY-d-z9WBAkQHhLAjc="
+							}
+						/>
+					</div>
+				)}
+				{formData.file && (
+					<div>
 						<video
 							ref={videoRef}
 							width="320"
@@ -128,62 +155,95 @@ const CreateForm = () => {
 						></video>
 					</div>
 				)}
-				<FlexboxGrid className="thumb-upload">
-					<FlexboxGrid.Item className="col-1">
-						<div onClick={() => setShow(!show)}>
-							<div className="icon-wrapper">
-								<Icon icon="image" style={{ color: "#1EBAFF" }} size="2x" />
-							</div>
-							<h1>Suggested Thumbnails</h1>
-						</div>
-					</FlexboxGrid.Item>
 
-					<ThumbnailModal show={show} close={() => setShow(false)}>
-						<FormGroup controlId="radioList" className="radio-control">
-							<RadioGroup
-								name="radioList"
-								inline
-								// appearance="picker"
-								className="radio-group"
-								defaultValue={formData.thumbnail}
-								onChange={(file) => {
-									return setFormData({ ...formData, thumbnail: file });
-								}}
-							>
-								{images.length !== 0 ? (
-									<>
-										{images.map((img) => (
+				<div>
+					<div align="middle" justify="space-around" className="thumb-upload">
+						<div className="col-1">
+							<div className="wrapper">
+								<div onClick={() => setShow(!show)}>
+									<div className="icon-wrapper">
+										<Icon icon="image" style={{ color: "#1EBAFF" }} size="2x" />
+									</div>
+									<h1>Suggested Thumbnails</h1>
+								</div>
+							</div>
+						</div>
+
+						<div className="col-2">
+							<div className="wrapper">
+								<Uploader
+									fileListVisible={false}
+									removable={true}
+									accept="image/*"
+									onChange={(file) =>
+										setFormData({ ...formData, thumbnail: file[0].blobFile })
+									}
+								>
+									<div>
+										<div className="icon-wrapper">
+											<Icon
+												icon="upload2"
+												style={{ color: "#1EBAFF" }}
+												size="2x"
+											/>
+										</div>
+										<h1>Your Thumbnail</h1>
+										<input
+											type="file"
+											accept="images"
+											style={{ display: "none" }}
+										/>
+									</div>
+								</Uploader>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<ThumbnailModal show={show} close={() => setShow(false)}>
+					<FormGroup controlId="radioList" className="radio-control">
+						<RadioGroup
+							name="radioList"
+							inline
+							className="radio-group"
+							defaultValue={formData.thumbnail}
+							onChange={async (file) => {
+								const blob = await fetch(file)
+									.then((res) => res.blob())
+									.then(
+										(blob) =>
+											new File([blob], "random thumbnail", {
+												type: "image/png",
+											})
+									);
+								return setFormData({ ...formData, thumbnail: blob });
+							}}
+						>
+							{images.length !== 0 ? (
+								<>
+									{images.map((img) => {
+										return (
 											<Radio key={img} value={img}>
 												<img
 													className="thumb-img"
 													style={{ width: 120, objectFit: "cover" }}
-													key={img}
 													src={img}
 												/>
 											</Radio>
-										))}
-									</>
-								) : (
-									""
-								)}
-							</RadioGroup>
-						</FormGroup>
-					</ThumbnailModal>
+										);
+									})}
+								</>
+							) : (
+								""
+							)}
+						</RadioGroup>
+					</FormGroup>
+				</ThumbnailModal>
 
-					<FlexboxGrid.Item className="col-2">
-						<div>
-							<div className="icon-wrapper">
-								<Icon icon="upload2" style={{ color: "#1EBAFF" }} size="2x" />
-							</div>
-							<h1>Your Thumbnail</h1>
-							<input type="file" accept="images" style={{ display: "none" }} />
-						</div>
-					</FlexboxGrid.Item>
-				</FlexboxGrid>
 				<FormGroup>
 					<ControlLabel>Tags</ControlLabel>
 					<FormControl
-						name="colors"
+						name="tags"
 						placeholder="Tags"
 						accepter={TagPicker}
 						creatable
@@ -191,7 +251,9 @@ const CreateForm = () => {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<Button appearance="primary">Upload</Button>
+					<Button className="upload-btn" appearance="primary">
+						Upload
+					</Button>
 				</FormGroup>
 			</Form>
 		</div>

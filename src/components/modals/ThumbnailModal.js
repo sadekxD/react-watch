@@ -10,6 +10,7 @@ const ThumbnailModal = ({ show, close, children }) => {
 					maxWidth: 700,
 					margin: "0 auto",
 					marginTop: 30,
+					zIndex: 43243243243242423,
 				}}
 				show={show}
 				onHide={close}

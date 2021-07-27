@@ -8,7 +8,7 @@ const images = [
 	"https://www.91-cdn.com/hub/wp-content/uploads/2021/03/YouTube-Thumbnail-maker.jpeg",
 ];
 
-const Video2 = () => {
+const Video2 = ({ title, thumbnail, duration, upload_date, author, views }) => {
 	return (
 		<div className="video-card-2">
 			<Link to="/videos/3">
@@ -19,6 +19,7 @@ const Video2 = () => {
 							src={images[Math.floor(Math.random() * images.length)]}
 							alt="random"
 						/>
+						<span className="duration">4:33</span>
 					</div>
 					<div className="video-info">
 						<h1 className="video-title">See What Happen When Man In Sea </h1>

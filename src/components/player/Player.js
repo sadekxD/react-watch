@@ -1,34 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
-import { FlexboxGrid, Icon, Slider } from "rsuite";
+import { FlexboxGrid, Icon } from "rsuite";
 import play from "../../media/play.png";
 import CustomSlider from "./CustomSlider";
 import QualityTooltip from "./QualityTooltip";
 
-const resolutions = ["240p", "360p", "720p", "1080p"];
-const sources = [
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.240p.webm",
-		type: "video/webm",
-		label: "240p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.360p.webm",
-		type: "video/webm",
-		label: "360p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.480p.webm",
-		type: "video/webm",
-		label: "480p",
-	},
-	{
-		src: "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.720p.webm",
-		type: "video/webm",
-		label: "720p",
-	},
-];
+const defaultThumbnail =
+	"https://media.istockphoto.com/vectors/no-thumbnail-image-vector-graphic-vector-id1147544806?k=6&m=1147544806&s=170667a&w=0&h=lYslyr1iPYlaJMp372lvw521YZY-d-z9WBAkQHhLAjc=";
 
-const VideoPlayer = () => {
+const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	const videoRef = useRef(null);
 	const playerContainerRef = useRef(null);
 	const [resolution, setResolution] = useState("360p");
@@ -58,7 +37,7 @@ const VideoPlayer = () => {
 	}, []);
 
 	useEffect(() => {
-		if (resolution) {
+		if (resolution && sources.length) {
 			const src = sources.filter((item) => item.label === resolution);
 			videoRef.current.src = src[0].src;
 			videoRef.current.currentTime = videoInfo.currentTime;
@@ -165,22 +144,6 @@ const VideoPlayer = () => {
 				{sources.map(({ src, type, label }) => (
 					<source key={src} src={src} type={type} label={label} />
 				))}
-				{/* <source
-					src="https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.480p.webm"
-					type="video/webm"
-					label="480P"
-				/>
-				<source
-					src="https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.360p.webm"
-					type="video/webm"
-					label="360P"
-				/>
-				<source
-					src="https://upload.wikimedia.org/wikipedia/commons/transcoded/a/ab/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm/Caminandes_3_-_Llamigos_-_Blender_Animated_Short.webm.240p.webm"
-					type="video/webm"
-					label="240P"
-					selected={true}
-				/> */}
 				Your browser does not support the <code>video</code> element.
 			</video>
 			<div id="customControls" className="video-controls show">
@@ -247,11 +210,7 @@ const VideoPlayer = () => {
 				onClick={togglePlay}
 				className={`thumbnail-wrapper ${noThumb ? "hidden" : ""}`}
 			>
-				<img
-					src="https://i.ytimg.com/vi/duJNVv9m2NY/maxresdefault.jpg"
-					alt="thumbnail"
-					className="thumbnail"
-				/>
+				<img src={thumbnail} alt="thumbnail" className="thumbnail" />
 				<img src={play} alt="play" className="play-btn" />
 			</div>
 		</div>
