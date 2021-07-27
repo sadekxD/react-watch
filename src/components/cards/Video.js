@@ -1,7 +1,6 @@
 import React from "react";
 import { Icon, Avatar } from "rsuite";
 import { Link } from "react-router-dom";
-import { formatDistance, subDays } from "date-fns";
 
 // Utils
 import { calculateDate } from "../../utils/uploadTimeCalculate";
