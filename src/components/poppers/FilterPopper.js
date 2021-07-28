@@ -90,7 +90,7 @@ const FilterDropdown = () => {
 	return (
 		<Whisper
 			placement="bottomStart"
-			trigger="click"
+			trigger="hover"
 			triggerRef={triggerRef}
 			speaker={<FilterPopper />}
 			enterable

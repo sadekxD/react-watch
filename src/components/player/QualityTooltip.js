@@ -9,6 +9,14 @@ const QualityTooltip = ({
 }) => {
 	const [active, setActive] = useState(false);
 
+	useEffect(() => {
+		if (active) {
+			setTimeout(() => {
+				setActive(false);
+			}, 2000);
+		}
+	}, [active]);
+
 	const handleResolution = (value) => {
 		setResolution(value);
 	};
