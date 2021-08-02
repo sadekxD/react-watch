@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
-import { FlexboxGrid, Icon } from "rsuite";
+import { FlexboxGrid, Icon, Slider } from "rsuite";
 import play from "../../media/play.png";
-import CustomSlider from "./CustomSlider";
+import DurationSlider from "./DurationSlider";
 import QualityTooltip from "./QualityTooltip";
 
 const defaultThumbnail =
@@ -14,7 +14,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [noThumb, setNoThumb] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
-	const [volume, setVolume] = useState(0.6);
+	const [volume, setVolume] = useState(1);
 	const [fullScreen, setFullScreen] = useState(false);
 	const [videoInfo, setVideoInfo] = useState({
 		currentTime: 0,
@@ -28,7 +28,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 
 	useEffect(() => {
 		if (!isMuted) {
-			setVolume(0.1);
+			setVolume(1);
 		}
 	}, [isMuted]);
 
@@ -57,15 +57,14 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 		}
 	};
 
-	const handleVolume = (e) => {
-		const value = e.target.value;
+	const handleVolume = (value) => {
 		if (value <= 0) {
 			setIsMuted(true);
 		} else {
 			setIsMuted(false);
 		}
 		setVolume(value);
-		videoRef.current.volume = volume;
+		videoRef.current.volume = value;
 	};
 
 	const toggleMute = () => {
@@ -78,11 +77,6 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 		}
 	};
 
-	const dragHandler = (e) => {
-		videoRef.current.currentTime = e.target.value;
-		setVideoInfo({ ...videoInfo, currentTime: e.target.value });
-	};
-
 	const getTime = (time = 0) => {
 		return (
 			Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -92,6 +86,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	const timeUpdateHandler = (e) => {
 		const current = e.target.currentTime;
 		const duration = e.target.duration;
+
 		//Calculate Percentage
 		const roundedCurrent = Math.round(current);
 		const roundedDuration = Math.round(duration);
@@ -147,12 +142,10 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 				Your browser does not support the <code>video</code> element.
 			</video>
 			<div id="customControls" className="video-controls show">
-				<CustomSlider
-					onChange={dragHandler}
-					min={0}
-					max={videoInfo.duration || 0}
-					value={videoInfo.currentTime}
-					style={{ marginBottom: 12 }}
+				<DurationSlider
+					videoInfo={videoInfo}
+					setVideoInfo={setVideoInfo}
+					videoRef={videoRef}
 				/>
 				<FlexboxGrid align="middle" justify="space-between">
 					<FlexboxGrid.Item className="c-left">
@@ -163,9 +156,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 								<Icon className="play-icon" icon="play" />
 							)}
 						</div>
-						<div
-							style={{ display: "flex", alignItems: "center", marginRight: 10 }}
-						>
+						<div className="volume-wrapper">
 							<div className="sound-icon-wrap" onClick={toggleMute}>
 								<Icon
 									className="sound-icon"
@@ -173,15 +164,14 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 								/>
 								{isMuted && <span className="mute-slash">|</span>}
 							</div>
-
-							<CustomSlider
+							<Slider
+								progress
+								value={volume}
 								onChange={handleVolume}
 								step={0.05}
-								defaultValue={0.6}
-								value={volume}
 								min={0}
 								max={1}
-								style={{ width: 80 }}
+								className="volume-slider"
 							/>
 						</div>
 						<div className="timestamp">

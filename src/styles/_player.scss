@@ -85,10 +85,40 @@
 				color: white;
 			}
 
+			.volume-wrapper {
+				display: flex;
+				align-items: center;
+				margin-right: 10px;
+
+				.volume-slider {
+					width: 0;
+					transition: all 0.2s;
+
+					.rs-slider-handle {
+						display: none;
+					}
+				}
+
+				&:hover {
+					.volume-slider {
+						width: 80px;
+						.rs-slider-handle {
+							display: block;
+						}
+					}
+				}
+
+				@media screen and (max-width: 480px) {
+					.volume-slider {
+						display: none;
+					}
+				}
+			}
+
 			.sound-icon-wrap {
 				position: relative;
 				.sound-icon {
-					margin-right: 10px;
+					margin-right: 14px;
 					color: white;
 				}
 
@@ -96,7 +126,7 @@
 					position: absolute;
 					top: 50%;
 					left: 50%;
-					transform: translate(-120%, -55%) rotate(-45deg);
+					transform: translate(-130%, -55%) rotate(-45deg);
 					color: #fff;
 					user-select: none;
 				}
