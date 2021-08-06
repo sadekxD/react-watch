@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import NoResult from "../components/NoResult";
 
 import Videos from "../components/video-list";
 import { dummyData } from "../data/DummyData";
@@ -53,7 +54,11 @@ const FilterResult = () => {
 
 	return (
 		<div>
-			<Videos data={filteredData} header="Filter result" />
+			{filteredData.length !== 0 ? (
+				<Videos data={filteredData} header="Filter result" />
+			) : (
+				<NoResult header="Filtered result" />
+			)}
 		</div>
 	);
 };

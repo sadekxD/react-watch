@@ -1,5 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import NoResult from "../components/NoResult";
 import Videos from "../components/video-list";
 import { dummyData } from "../data/DummyData";
 
@@ -18,10 +19,14 @@ const SearchResult = () => {
 
 	return (
 		<div>
-			<Videos
-				data={searchedResult}
-				header={`Search result for "${query.get("search")}"`}
-			/>
+			{searchedResult.length !== 0 ? (
+				<Videos
+					data={searchedResult}
+					header={`Search result for "${query.get("search")}"`}
+				/>
+			) : (
+				<NoResult header={`Search result for "${query.get("search")}"`} />
+			)}
 		</div>
 	);
 };

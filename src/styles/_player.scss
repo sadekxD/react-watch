@@ -12,6 +12,7 @@
 		right: 0;
 		left: 0;
 		bottom: 0;
+		z-index: 10;
 
 		&.hidden {
 			display: none;
@@ -31,9 +32,30 @@
 		}
 	}
 
+	.gradient {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: transparent;
+		transition: all 0.2s;
+
+		&.paushed {
+			background: linear-gradient(to top, #333 -20%, transparent 57%);
+		}
+	}
+
 	&:hover {
+		.gradient {
+			&.show {
+				background: linear-gradient(to top, #333 -20%, transparent 57%);
+			}
+		}
+
 		.video-controls.show {
-			transform: translateY(0);
+			opacity: 1;
+			z-index: 1;
 		}
 	}
 
@@ -62,15 +84,19 @@
 	}
 
 	.video-controls {
+		z-index: 0;
 		position: absolute;
 		left: 0;
 		right: 0;
 		bottom: 0;
-		padding: 10px 8px;
-		background-color: rgba(0, 0, 0, 0.1);
-		transform: translateY(100%);
+		padding: 10px 12px;
+		opacity: 0;
 		transition: all 0.2s ease-in-out;
 		cursor: pointer;
+
+		&.paushed {
+			opacity: 1;
+		}
 
 		.duration-slider {
 			margin-bottom: 12px;

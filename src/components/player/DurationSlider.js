@@ -74,15 +74,6 @@ const DurationSlider = ({ videoInfo, setVideoInfo, videoRef }) => {
 		}
 	};
 
-	useEffect(() => {
-		window.addEventListener("mousedown", onMouseDown);
-		window.addEventListener("touchstart", onMouseDown);
-		return () => {
-			window.removeEventListener("mousedown", onMouseDown);
-			window.removeEventListener("touchstart", onMouseDown);
-		};
-	});
-
 	return (
 		<div className="slider2" id="slider2">
 			<div
@@ -103,6 +94,8 @@ const DurationSlider = ({ videoInfo, setVideoInfo, videoRef }) => {
 					}}
 				/>
 				<div
+					onMouseDown={onMouseDown}
+					onTouchStart={onMouseDown}
 					className="thumb"
 					style={{ left: `${videoInfo.animationPercentage}%` }}
 					ref={thumb}

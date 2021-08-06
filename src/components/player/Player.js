@@ -14,7 +14,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	const [isPlaying, setIsPlaying] = useState(false);
 	const [noThumb, setNoThumb] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
-	const [volume, setVolume] = useState(1);
+	const [volume, setVolume] = useState(100);
 	const [fullScreen, setFullScreen] = useState(false);
 	const [videoInfo, setVideoInfo] = useState({
 		currentTime: 0,
@@ -27,13 +27,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	}, [isPlaying]);
 
 	useEffect(() => {
-		if (!isMuted) {
-			setVolume(1);
-		}
-	}, [isMuted]);
-
-	useEffect(() => {
-		videoRef.current.volume = volume;
+		videoRef.current.volume = volume / 100;
 	}, []);
 
 	useEffect(() => {
@@ -46,6 +40,15 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 			}
 		}
 	}, [resolution]);
+
+	useEffect(() => {
+		document.addEventListener("fullscreenchange", () => {
+			console.log(document.fullscreenElement);
+			if (!document.fullscreenElement) {
+				setFullScreen(false);
+			}
+		});
+	}, []);
 
 	const togglePlay = () => {
 		if (isPlaying) {
@@ -60,11 +63,14 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 	const handleVolume = (value) => {
 		if (value <= 0) {
 			setIsMuted(true);
-		} else {
+		}
+
+		if (value > 0) {
 			setIsMuted(false);
 		}
+
 		setVolume(value);
-		videoRef.current.volume = value;
+		videoRef.current.volume = value / 100;
 	};
 
 	const toggleMute = () => {
@@ -126,7 +132,7 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 		<div
 			onDoubleClick={handleFullScreen}
 			ref={playerContainerRef}
-			className={`player-container ${fullScreen ? "" : ""}`}
+			className="player-container"
 		>
 			<video
 				className={fullScreen ? "fullscreen" : ""}
@@ -141,7 +147,10 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 				))}
 				Your browser does not support the <code>video</code> element.
 			</video>
-			<div id="customControls" className="video-controls show">
+			<div
+				id="customControls"
+				className={`video-controls show ${!isPlaying ? "paushed" : ""}`}
+			>
 				<DurationSlider
 					videoInfo={videoInfo}
 					setVideoInfo={setVideoInfo}
@@ -168,9 +177,9 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 								progress
 								value={volume}
 								onChange={handleVolume}
-								step={0.05}
+								step={1}
 								min={0}
-								max={1}
+								max={100}
 								className="volume-slider"
 							/>
 						</div>
@@ -196,6 +205,10 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 					</FlexboxGrid.Item>
 				</FlexboxGrid>
 			</div>
+			<div
+				onClick={togglePlay}
+				className={`gradient show ${!isPlaying ? "paushed" : ""}`}
+			></div>
 			<div
 				onClick={togglePlay}
 				className={`thumbnail-wrapper ${noThumb ? "hidden" : ""}`}

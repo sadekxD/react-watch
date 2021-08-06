@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import {
 	Navbar,
 	FlexboxGrid,
@@ -19,6 +19,7 @@ const NavbarC = () => {
 	const [searchValue, setSearchValue] = useState({ search: "" });
 
 	const history = useHistory();
+	const location = useLocation();
 
 	const handleSearch = (e) => {
 		if (searchValue.search) {
@@ -30,7 +31,11 @@ const NavbarC = () => {
 	};
 
 	return (
-		<div className="nav-container">
+		<div
+			className={`nav-container ${
+				location.pathname.includes("videos") ? "hide-nav" : ""
+			}`}
+		>
 			<Navbar className="nav">
 				<Navbar.Body>
 					<Grid fluid>

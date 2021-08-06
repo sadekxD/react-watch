@@ -39,8 +39,9 @@ const CreateForm = () => {
 	useEffect(() => {
 		if (!formData.file) {
 			setImages([]);
+			setFormData({ ...formData, thumbnail: "" });
 		}
-	}, [formData]);
+	}, [formData.file]);
 
 	function dataURItoBlob(dataURI) {
 		var mime = dataURI.split(",")[0].split(":")[1].split(";")[0];
@@ -151,51 +152,60 @@ const CreateForm = () => {
 					</div>
 				)}
 
-				<div>
-					<div align="middle" justify="space-around" className="thumb-upload">
-						<div className="col-1">
-							<div className="wrapper">
-								<div onClick={() => setShow(!show)}>
-									<div className="icon-wrapper">
-										<Icon icon="image" style={{ color: "#1EBAFF" }} size="2x" />
-									</div>
-									<h1>Suggested Thumbnails</h1>
-								</div>
-							</div>
-						</div>
-
-						<div className="col-2">
-							<div className="wrapper">
-								<Uploader
-									removable={true}
-									listType="text"
-									autoUpload={false}
-									disabled={formData.thumbnail ? true : false}
-									accept="image/*"
-									onChange={(file) => {
-										setFormData({ ...formData, thumbnail: file[0]?.blobFile });
-									}}
-								>
-									<div>
+				{formData.file && (
+					<div>
+						<div align="middle" justify="space-around" className="thumb-upload">
+							<div className="col-1">
+								<div className="wrapper">
+									<div onClick={() => setShow(!show)}>
 										<div className="icon-wrapper">
 											<Icon
-												icon="upload2"
+												icon="image"
 												style={{ color: "#1EBAFF" }}
 												size="2x"
 											/>
 										</div>
-										<h1>Your Thumbnail</h1>
-										<input
-											type="file"
-											accept="images"
-											style={{ display: "none" }}
-										/>
+										<h1>Suggested Thumbnails</h1>
 									</div>
-								</Uploader>
+								</div>
+							</div>
+
+							<div className="col-2">
+								<div className="wrapper">
+									<Uploader
+										removable={true}
+										listType="text"
+										autoUpload={false}
+										disabled={formData.thumbnail ? true : false}
+										accept="image/*"
+										onChange={(file) => {
+											setFormData({
+												...formData,
+												thumbnail: file[0]?.blobFile,
+											});
+										}}
+									>
+										<div>
+											<div className="icon-wrapper">
+												<Icon
+													icon="upload2"
+													style={{ color: "#1EBAFF" }}
+													size="2x"
+												/>
+											</div>
+											<h1>Your Thumbnail</h1>
+											<input
+												type="file"
+												accept="images"
+												style={{ display: "none" }}
+											/>
+										</div>
+									</Uploader>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				)}
 
 				<ThumbnailModal show={show} close={() => setShow(false)}>
 					<FormGroup controlId="radioList" className="radio-control">

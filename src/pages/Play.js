@@ -15,8 +15,6 @@ const Play = () => {
 
 	const videoInfo = dummyData.find((item) => item.id === parseInt(id));
 
-	console.log(videoInfo);
-
 	const { title, description, sources, thumbnail, tags } = videoInfo;
 
 	return (
@@ -46,6 +44,12 @@ const Play = () => {
 										<span className="up-date">Aug 14,2019</span>
 									</div>
 									<div className="likes">220 likes</div>
+									<Button appearance="primary" style={{ marginTop: 8 }}>
+										<span>
+											<Icon icon="heart-o" style={{ marginRight: 4 }} />
+										</span>{" "}
+										Save
+									</Button>
 								</FlexboxGrid.Item>
 								<FlexboxGrid.Item className="author-info">
 									<Avatar
