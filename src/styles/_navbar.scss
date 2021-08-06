@@ -1,4 +1,7 @@
 .header {
+	background-color: #fff;
+	height: 100px;
+
 	@media screen and (max-width: 480px) {
 		&.hide-header {
 			display: none;

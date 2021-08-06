@@ -1,11 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FlexboxGrid } from "rsuite";
 import Logo from "../media/Logo.png";
 
 const Header = () => {
-	const location = useLocation();
-
+	const location = useHistory();
 	return (
 		<FlexboxGrid
 			justify="center"
