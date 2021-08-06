@@ -43,7 +43,6 @@ const VideoPlayer = ({ sources = [], thumbnail = defaultThumbnail }) => {
 
 	useEffect(() => {
 		document.addEventListener("fullscreenchange", () => {
-			console.log(document.fullscreenElement);
 			if (!document.fullscreenElement) {
 				setFullScreen(false);
 			}
